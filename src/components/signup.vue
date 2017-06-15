@@ -33,7 +33,7 @@
         <div class="form-group">
           <div class="col-sm-offset-8 col-sm-4">
             <button type="button" class="btn btn-danger" @click="reset">重置</button>
-            <button type="button" class="btn btn-info" @click="signup">注册</button>
+            <button type="button" class="btn btn-info btn-signup" @click="signup">注册</button>
           </div>
         </div>
       </form>
@@ -237,6 +237,9 @@ export default {
   }
   .has-success p {
     color: #67b168;
+  }
+  .btn-signup {
+    margin-left: 10px;
   }
 }
 </style>
