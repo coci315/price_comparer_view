@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import index from '@/components/index'
+import focus from '@/components/focus'
 import signupPage from '@/components/signup_page'
 import signinPage from '@/components/signin_page'
 
@@ -10,8 +11,12 @@ export default new Router({
   mode: 'history',
   routes: [{
     path: '/',
-    name: 'Hello',
-    component: Hello
+    name: 'index',
+    component: index
+  }, {
+    path: '/focus',
+    name: 'focus',
+    component: focus
   }, {
     path: '/signup',
     name: 'signup-page',

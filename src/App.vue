@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-    <nav class="menu">
+    <nav class="menu" :class="{'index_menu': isIndex}">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-offset-2 col-sm-4">
             <a class="navbar-brand nav_btn" href="/">首页</a>
+            <a class="navbar-brand nav_btn" href="/focus">关注</a>
           </div>
           <div class="col-sm-offset-3 col-sm-3">
             <span class="navbar-brand nav_btn" @click="showSignup = true" v-show="!showUserName">注册</span>
             <span class="navbar-brand nav_btn" @click="showSignin = true" v-show="!showUserName">登录</span>
-            <span class="navbar-brand" v-show="showUserName">{{userName}}</span>
+            <span class="navbar-brand user" v-show="showUserName">{{userName}}</span>
             <span class="navbar-brand nav_btn" @click="logout" v-show="showUserName">退出</span>
           </div>
         </div>
@@ -40,15 +41,23 @@ export default {
       showSignup: false,
       showSignin: false,
       userName: '',
-      showUserName: false
+      showUserName: false,
+      isIndex: false,
+      titles: {
+        '/': '首页',
+        '/focus': '关注列表',
+        '/signin': '登录',
+        '/signup': '注册'
+      }
     }
   },
   created () {
     this.getUserName()
   },
-  // updated () {
-  //   this.getUserName()
-  // },
+  updated () {
+    this.setMenuClass()
+    this.setTitle()
+  },
   methods: {
     logout () {
       this.$http.post('/api/logout').then(response => {
@@ -75,6 +84,16 @@ export default {
           }
         }
       })
+    },
+    setMenuClass () {
+      if (this.$route.path === '/') {
+        this.isIndex = true
+      } else {
+        this.isIndex = false
+      }
+    },
+    setTitle () {
+      document.title = this.titles[this.$route.path]
     }
   }
 }
@@ -90,10 +109,16 @@ export default {
     top: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0);
+    &.index_menu {
+      background-color: #EDF4ED;
+    }
   }
   .nav_btn {
     color: #324157;
     cursor: pointer;
+  }
+  .user {
+    cursor: default;
   }
 }
 </style>
