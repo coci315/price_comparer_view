@@ -1,37 +1,37 @@
 <template>
-  <div class="signup container">
+  <div class="signup container-fruid">
     <div class="row">
       <form class="form-horizontal">
         <div class="form-group" :class="{'has-error': nameError, 'has-success': nameSuccess}">
           <label for="inputUserName" class="col-sm-2 control-label">用户名</label>
-          <div class="col-sm-10">
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="inputUserName" name="user[name]" v-model.trim="name" @input="validateName">
             <p>{{nameText}}</p>
           </div>
         </div>
         <div class="form-group" :class="{'has-error': mailError, 'has-success': mailSuccess}">
           <label for="inputUserMail" class="col-sm-2 control-label">邮箱</label>
-          <div class="col-sm-10">
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="inputUserMail" name="user[mail]" v-model.trim="mail" @input="validateMail">
             <p>{{mailText}}</p>
           </div>
         </div>
         <div class="form-group" :class="{'has-error': pwdError, 'has-success': pwdSuccess}">
           <label for="inputPassword1" class="col-sm-2 control-label">密码</label>
-          <div class="col-sm-10">
+          <div class="col-sm-9">
             <input type="password" class="form-control" id="inputPassword1" name="user[password]" v-model.trim="pwd" @input="validatePwd">
             <p>{{pwdText}}</p>
           </div>
         </div>
         <div class="form-group" :class="{'has-error': repeatePwdError, 'has-success': repeatePwdSuccess}">
           <label for="inputPassword2" class="col-sm-2 control-label">密码确认</label>
-          <div class="col-sm-10">
+          <div class="col-sm-9">
             <input type="password" class="form-control" id="inputPassword2" v-model.trim="repeatePwd" @input="validateRepeatePwd">
             <p>{{repeatePwdText}}</p>
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-8 col-sm-4">
+          <div class="col-sm-offset-2 col-sm-9 btns-wrap">
             <button type="button" class="btn btn-danger" @click="reset">重置</button>
             <button type="button" class="btn btn-info btn-signup" @click="signup">注册</button>
           </div>
@@ -210,8 +210,11 @@ export default {
         const result = response.data
         this.reset()
         if (result.success) {
+          this.$emit('successSignup')
+          this.$router.push('/signin')
           alert('注册成功')
         } else {
+          this.$emit('failSignup')
           alert('注册失败')
         }
       })
@@ -222,21 +225,19 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .signup {
-  width: 40%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   p {
     padding-top: 10px;
     font-size: 14px;
-    color: #aaa;
+    color: #666;
   }
   .has-error p {
     color: #a94442;
   }
   .has-success p {
     color: #67b168;
+  }
+  .btns-wrap {
+    text-align: center;
   }
   .btn-signup {
     margin-left: 10px;

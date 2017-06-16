@@ -6,7 +6,16 @@
 
 <script>
 export default {
-  name: 'hello'
+  name: 'hello',
+  beforeRouteEnter (to, from, next) {
+    if (to.path !== from.path) {
+      next(vm => {
+        vm.$router.go(0)
+      })
+    } else {
+      next()
+    }
+  }
 }
 </script>
 

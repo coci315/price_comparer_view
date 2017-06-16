@@ -1,23 +1,23 @@
 <template>
-  <div class="signin container">
+  <div class="signin container-fruid">
     <div class="row">
       <form class="form-horizontal">
         <div class="form-group" :class="{'has-error': nameError}">
           <label for="inputUserName" class="col-sm-2 control-label">用户名</label>
-          <div class="col-sm-10">
+          <div class="col-sm-9">
             <input type="text" class="form-control" id="inputUserName" name="user[name]" v-model.trim="name" @input="validateVoid('name')">
             <p>{{nameText}}</p>
           </div>
         </div>
         <div class="form-group" :class="{'has-error': pwdError}">
           <label for="inputPassword1" class="col-sm-2 control-label">密码</label>
-          <div class="col-sm-10">
+          <div class="col-sm-9">
             <input type="password" class="form-control" id="inputPassword1" name="user[password]" v-model.trim="pwd" @input="validateVoid('pwd')">
             <p>{{pwdText}}</p>
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-8 col-sm-4">
+          <div class="col-sm-offset-2 col-sm-9 btns-wrap">
             <button type="button" class="btn btn-danger" @click="reset">重置</button>
             <button type="button" class="btn btn-info btn-signin" @click="signin">登录</button>
           </div>
@@ -76,8 +76,11 @@ export default {
         console.log(response)
         const result = response.data
         if (result.success) {
+          this.$emit('successSignin')
+          this.$router.push('/')
           alert('登录成功')
         } else {
+          this.$emit('failSignin')
           this.nameText = result.msg
           this.nameError = true
         }
@@ -89,11 +92,6 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .signin {
-  width: 40%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   p {
     padding-top: 10px;
     height: 20px;
@@ -102,6 +100,9 @@ export default {
   }
   .has-error p {
     color: #a94442;
+  }
+  .btns-wrap {
+    text-align: center;
   }
   .btn-signin {
     margin-left: 10px;
