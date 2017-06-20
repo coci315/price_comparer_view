@@ -86,7 +86,7 @@ export default {
       })
     },
     setMenuClass () {
-      if (this.$route.path === '/') {
+      if (this.$route.path === '/' || this.$route.path === '/focus') {
         this.isIndex = true
       } else {
         this.isIndex = false
@@ -120,5 +120,9 @@ export default {
   .user {
     cursor: default;
   }
+}
+
+ul {
+  list-style: none;
 }
 </style>
