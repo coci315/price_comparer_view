@@ -2,9 +2,20 @@
   <div class="index">
     <div class="products_wrap">
       <ul v-if="products.length > 0">
-        <li v-for="product in products">
-          <img :src="product.picLink" alt="商品">
-          <span>{{product.name}}</span>
+        <li v-for="(product,index) in products">
+          <div class="text">
+            <a :href="product.link">
+              <img :src="product.picLink" alt="商品">
+            </a>
+            <span class="name" :title="product.name">
+              <a :href="product.link">{{product.name}}</a>
+            </span>
+            <span class="price">
+              <span class="price_price">{{product.lowestPrice.price | formatPrice}}</span>
+              <span>{{product.lowestPrice.date}}</span>
+            </span>
+          </div>
+          <echarts :xAxisData="product.price.map(item => {return item.date})" :seriesData="product.price.map(item => {return item.price})"></echarts>
         </li>
       </ul>
       <div class="info" v-show="products.length === 0">
@@ -21,6 +32,7 @@
 </template>
 
 <script>
+import echarts from './echarts'
 export default {
   name: 'index',
   beforeRouteEnter (to, from, next) {
@@ -36,6 +48,9 @@ export default {
     return {
       products: []
     }
+  },
+  components: {
+    echarts
   },
   created () {
     this.$http.get('/api/products').then(response => {
@@ -59,7 +74,7 @@ export default {
   box-sizing: border-box;
   padding-top: 100px;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: #F9F9F9;
   .info {
     text-align: center;
@@ -75,6 +90,37 @@ export default {
       cursor: pointer;
       i {
         color: #EDF4ED;
+      }
+    }
+  }
+  ul {
+    cursor: default;
+    li+li {
+      margin-top: 20px;
+    }
+    li {
+      .text {
+        margin-bottom: 10px;
+        &>* {
+          vertical-align: middle;
+        }
+      }
+      .name {
+        margin-left: 20px;
+        display: inline-block;
+        width: 300px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .price {
+        margin-left: 20px;
+        color: #e4393c;
+        .price_price {
+          margin-right: 10px;
+          font-weight: bold;
+        }
       }
     }
   }
